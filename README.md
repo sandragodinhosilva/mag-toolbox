@@ -7,8 +7,8 @@ All the steps of this section require as **input**:
 
 ### 1.1) Quality check - CheckM
 CheckM: https://github.com/Ecogenomics/CheckM/wiki
-
-**remote** - job submission:
+Installation: https://github.com/Ecogenomics/CheckM/wiki/Installation
+job submission:
 ```bash
 # checkm lineage_wf -t ${NSLOTS:-1}  --tab_table -x fa -f $3 $1 $2 
 qsub  -N checkm_job    /path_to/submission_script.sh /data/msb/user/MAG_folder /data/msb/user/output/checkm /data/msb/user/output/checkm.tsv
@@ -17,17 +17,18 @@ qsub  -N checkm_job    /path_to/submission_script.sh /data/msb/user/MAG_folder /
 
 ### 1.2) Get taxonomy - Gtdbtk
 gtdb_tk: https://github.com/Ecogenomics/GTDBTk
-**remote** - job submission:
+Installation: https://ecogenomics.github.io/GTDBTk/running/
+job submission:
 ```bash
 # gtdbtk  classify_wf --extension  fa  --cpus ${NSLOTS:-1} --genome_dir $1  --out_dir $2qsub  -N gtdbtk_job   /path_to/submission_script.sh /data/msb/user/MAG_folder /data/msb/user/output/
 ```
 **Output** that will later be used: gtdbtk.bac120.summary.tsv 
-**Note: **if adequate, also consider gtdbtk.ar122.markers_summary.tsv for the archae domain.
+**Note: **if adequate, also consider gtdbtk.ar122.markers_summary.tsv for the archaea domain.
 
 ### 1.3) Get genome metrics - BBtools
-BBtools: https://jgi.doe.gov/data-and-tools/bbtools/
-**remote** - run on the command line:
-
+BBtools documentation: https://jgi.doe.gov/data-and-tools/bbtools/
+Download: https://sourceforge.net/projects/bbmap/ 
+Run the script **statswrapper.sh** on the folder with the MAGs
 ```bash
 bash /data/msb/tools/bbtools/bbmap/statswrapper.sh *.fa > bbtools.txt
 ```
