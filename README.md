@@ -1,6 +1,12 @@
-# MAGG toolbox
+# MAG toolbox
 Custom pipeline to analyse MAGs.
 
+## Summary
+* [1. Get genome metrics](#get_genomic_metrics)
+* [2. Merge data](#get_genomic_metrics)
+* [Author - contact](#author---contact)
+
+* * *
 ## 1. Get genome metrics
 All the steps of this section require as **input**: 
 - **folder with the MAGs in fasta format.**
@@ -16,13 +22,13 @@ qsub  -N checkm_job    /path_to/submission_script.sh /data/msb/user/MAG_folder /
 **Output** that will later be used on this workflow: checkm.tsv
 
 ### 1.2) Get taxonomy - Gtdbtk
-gtdb_tk: https://github.com/Ecogenomics/GTDBTk
+gtdb_tk: https://github.com/Ecogenomics/GTDBTk \
 Installation: https://ecogenomics.github.io/GTDBTk/running/
 job submission:
 ```bash
 # gtdbtk  classify_wf --extension  fa  --cpus ${NSLOTS:-1} --genome_dir $1  --out_dir $2qsub  -N gtdbtk_job   /path_to/submission_script.sh /data/msb/user/MAG_folder /data/msb/user/output/
 ```
-**Output** that will later be used: gtdbtk.bac120.summary.tsv 
+**Output** that will later be used: gtdbtk.bac120.summary.tsv \
 **Note: **if adequate, also consider gtdbtk.ar122.markers_summary.tsv for the archaea domain.
 
 ### 1.3) Get genome metrics - BBtools
@@ -32,17 +38,17 @@ Run the script **statswrapper.sh** on the folder with the MAGs
 ```bash
 bash /data/msb/tools/bbtools/bbmap/statswrapper.sh *.fa > bbtools.txt
 ```
-**Note:** Simply run the script **statswrapper.sh**  on the directory with the MAGs.
+**Note:** Simply run the script **statswrapper.sh**  on the directory with the MAGs. \
 **Output** that will later be used: bbtools.txt
 * * *
 ## 2) Merge data - Jupyter Notebook
 All the steps necessary to merge the CheckM, gtdb_tk and BBtools output files are described in the following Jupyter Notebook with a Python Kernel: **Data_cleaning.ypnb**
 
-It's necessary to have the tool Jupyter Notebooks or Jupyter Lab (recommended) to open this notebook. 
+It's necessary to have the tool Jupyter Notebooks or Jupyter Lab (recommended) to open this notebook. \
 Link to installation guide:
 https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html
 
-**Note:** inside the notebook you will find the rules in use to classify MAGs in terms of quality (High/Medium).
+**Note:** inside the notebook you will find the rules in use to classify MAGs in terms of quality (High/Medium). \
 
 **Output:** csv file with all the information: MAG_metrics.csv
 * * *
@@ -61,7 +67,7 @@ create_report(table)
 ## 4) Visualize taxonomy - MashTree + ITOL
 ### 4.1) MashTree
 MashTree: https://github.com/lskatz/mashtree
-**Input**: folder with the MAGs in fasta format.
+**Input**: folder with the MAGs in fasta format. \
 
 **remote** - job submission:
 ```bash
@@ -76,7 +82,7 @@ qsub -N mashTree  /path_to/submission_script.sh /data/msb/user/MAG_folder/ /data
  **Note: **you can use the data generated in the first step to add annotations to your ITOL tree (ex: taxonomy).
 
 * * *
-##5) Species differentiation
+## 5) Species differentiation
 fastANI: https://github.com/ParBLiSS/FastANI
 
 First, divide MAGs/bins into groups according to taxonomy **group_by_taxonomy.py**:
@@ -146,3 +152,8 @@ cp --parents `grep -lr '16S' ./*` ~/silva/Liu_et.al_2020/rRNA/16S/
 **In case you need to transform fastq files into fasta:**
 ```bash
 for i in *.fastq; do seqtk seq -A $i >  ${i%.*}.fasta; done
+```
+
+## Author
+Sandra Godinho Silva \
+sandragodinhosilva@gmail.com
